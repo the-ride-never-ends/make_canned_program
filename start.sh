@@ -10,7 +10,7 @@ source venv/bin/activate
 echo "*** BEGIN PROGRAM ***"
 
 # Run the Python script
-python main.py # main.py
+python3 main.py # main.py
 
 # Echo to indicate the end of the Python script
 echo "*** END PROGRAM ***"
