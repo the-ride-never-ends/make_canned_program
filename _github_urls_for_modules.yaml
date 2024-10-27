@@ -1,0 +1,7 @@
+database: "https://github.com/the-ride-never-ends/database"
+config: "https://github.com/the-ride-never-ends/config"
+utils: "https://github.com/the-ride-never-ends/utils"
+logger: "https://github.com/the-ride-never-ends/logger"
+llm_engine: "https://github.com/the-ride-never-ends/llm_engine"
+api: "https://github.com/the-ride-never-ends/api"
+main: "https://github.com/the-ride-never-ends/main"
