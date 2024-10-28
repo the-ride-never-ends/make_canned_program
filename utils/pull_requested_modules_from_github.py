@@ -23,8 +23,8 @@ import subprocess
 import yaml
 
 
-from ..config.config import PROJECT_ROOT, PULLED_REPOS_PATH
-from ..logger.logger import Logger
+from config.config import PROJECT_ROOT, PULLED_REPOS_PATH
+from logger.logger import Logger
 logger = Logger(logger_name=__name__)
 
 GITHUB_URLS_FOR_MODULES = {

@@ -30,3 +30,7 @@ if exist requirements.txt (
 )
 
 echo Setup complete!
+
+echo Exiting in 5 seconds...
+timeout /t 5
+
