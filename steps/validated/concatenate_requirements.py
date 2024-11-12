@@ -3,7 +3,7 @@ import glob
 
 def concatenate_requirements(program_path: str) -> set:
     """
-    Concatenate requirements.txt files
+    Concatenate requirements.txt files from all the submodules.
     """
     requirements_files = glob.glob(os.path.join(program_path, "**", "requirements.txt"), recursive=True)
     all_requirements = set()

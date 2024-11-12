@@ -1,4 +1,6 @@
 # Folders
+.vscode/
+.pytest_cache/
 private_config.yaml
 github_urls_for_modules.yaml
 debug_logs/*
@@ -11,6 +13,7 @@ input/*
 !input/_input_goes_here.txt
 venv/
 __pycache__/
+tests/
 # Files
 *.Identifier
 *.csv
