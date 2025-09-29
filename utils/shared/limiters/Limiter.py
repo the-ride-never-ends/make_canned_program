@@ -19,6 +19,15 @@ class Limiter:
                  stop_condition: Any = "stop_condition", # Replace with your specific stop condition
                  progress_bar: bool=True
                 ):
+        """Initialize the Limiter with concurrency control settings.
+        
+        Args:
+            semaphore (int): Maximum number of concurrent tasks allowed.
+            stop_condition (Any, optional): Condition that triggers stopping of tasks.
+                Defaults to "stop_condition".
+            progress_bar (bool, optional): Whether to show progress bar during execution.
+                Defaults to True.
+        """
         self.semaphore = asyncio.Semaphore(semaphore)
         self.stop_condition = stop_condition
         self.progress_bar = progress_bar
@@ -72,6 +81,23 @@ class Limiter:
                              outer_task_name: str = "",
                              **kwargs
                             ) -> asyncio.Future | Generator:
+        """Run multiple async tasks with concurrency limiting and optional progress tracking.
+        
+        Args:
+            *args: Additional positional arguments for the task function.
+            inputs (Any, optional): Input data for the tasks. Defaults to None.
+            func (Callable, optional): The async function to run for each input.
+                Defaults to None.
+            enum (bool, optional): Whether to enumerate inputs. Defaults to True.
+            outer_task_name (str, optional): Name prefix for tasks. Defaults to "".
+            **kwargs: Additional keyword arguments for the task function.
+            
+        Returns:
+            asyncio.Future | Generator: Future or generator of task results.
+            
+        Raises:
+            ValueError: If inputs or func parameters are not provided.
+        """
         if not inputs:
             raise ValueError("input_list was not input as a parameter")
 

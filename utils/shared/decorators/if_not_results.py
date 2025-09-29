@@ -30,9 +30,26 @@ def if_not_results(message: str=None) -> Callable:
     >>>     return some_result
     """
     def decorator(func: Callable) -> Callable:
+        """Create the decorator function for the given callable.
+        
+        Args:
+            func (Callable): The function to be decorated.
+            
+        Returns:
+            Callable: The decorated function.
+        """
 
         @wraps(func)
         def wrapper(*args,**kwargs) -> Any|None:
+            """Check if the function returns results and log warning if not.
+            
+            Args:
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any|None: The return value of the wrapped function, or None if no results.
+            """
 
             nonlocal message
             logger = Logger(logger_name=func.__module__)
