@@ -82,8 +82,25 @@ def async_try_except(exception: list=[Exception],
     Retrying (0/3)...
     """
     def decorator(func: Coroutine) -> Coroutine:
+        """Create decorator function for async try-except handling.
+        
+        Args:
+            func (Coroutine): The async function to be decorated.
+            
+        Returns:
+            Coroutine: The decorated async function with error handling.
+        """
         @wraps(func)
         async def wrapper(*args, **kwargs) -> Any:
+            """Async wrapper that applies try-except logic to the decorated function.
+            
+            Args:
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any: The return value of the wrapped function.
+            """
             async with TryExcept(func, 
                                  exception=exception, 
                                  raise_exception=raise_exception, 
@@ -132,8 +149,25 @@ def try_except(exception: list=[Exception],
     Retrying (0/3)...
     """
     def decorator(func: Coroutine) -> Coroutine:
+        """Create decorator function for sync try-except handling.
+        
+        Args:
+            func (Coroutine): The function to be decorated.
+            
+        Returns:
+            Coroutine: The decorated function with error handling.
+        """
         @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
+            """Wrapper that applies try-except logic to the decorated function.
+            
+            Args:
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any: The return value of the wrapped function.
+            """
             with TryExcept(func, 
                             exception=exception, 
                             raise_exception=raise_exception, 
@@ -147,6 +181,11 @@ def try_except(exception: list=[Exception],
 
 
 class TryExcept:
+    """Context manager for handling try-except logic with retries for functions and coroutines.
+    
+    Provides both sync and async context manager functionality to wrap function
+    execution with exception handling, retry logic, and optional logging.
+    """
     def __init__(self,
                 func: Callable|Coroutine, 
                 exception: list = [Exception], 
@@ -154,6 +193,17 @@ class TryExcept:
                 retries: int = 0, 
                 logger: Logger = None,
                 ) -> None:
+        """Initialize the TryExcept context manager.
+        
+        Args:
+            func (Callable|Coroutine): The function or coroutine to wrap.
+            exception (list, optional): List of exception types to catch. 
+                Defaults to [Exception].
+            raise_exception (bool, optional): Whether to re-raise exceptions
+                after retries. Defaults to False.
+            retries (int, optional): Number of retry attempts. Defaults to 0.
+            logger (Logger, optional): Logger instance. Defaults to None.
+        """
         self.exception = exception or [Exception]
         self.raise_exception = raise_exception or False
         self.retries = max(0, retries)  # Ensure non-negative
@@ -169,22 +219,53 @@ class TryExcept:
 
     @classmethod
     def start(cls, *args, **kwargs) -> 'TryExcept':
+        """Create and return a new TryExcept instance.
+        
+        Args:
+            *args: Positional arguments for TryExcept initialization.
+            **kwargs: Keyword arguments for TryExcept initialization.
+            
+        Returns:
+            TryExcept: A new TryExcept instance.
+        """
         instnace = cls(*args, **kwargs)
         return instnace
 
     def stop() -> None:
+        """Stop the TryExcept context manager (no-op).
+        
+        This is a placeholder method that performs no operation.
+        """
         return
 
     def __enter__(self) -> 'TryExcept':
+        """Enter the synchronous context manager.
+        
+        Returns:
+            TryExcept: Self for use in the context.
+        """
         return self
 
     def __exit__(self) -> None:
+        """Exit the synchronous context manager.
+        
+        Performs cleanup when exiting the context.
+        """
         return
  
     async def __aenter__(self) -> 'TryExcept':
+        """Enter the asynchronous context manager.
+        
+        Returns:
+            TryExcept: Self for use in the async context.
+        """
         return await self
 
     async def __aexit__(self) -> None:
+        """Exit the asynchronous context manager.
+        
+        Performs cleanup when exiting the async context.
+        """
         return
 
     def _make_exception_tuple_from_exception_list(self) -> tuple[Exception]:
@@ -259,6 +340,19 @@ class TryExcept:
 
 
     async def async_try_except(self, *args, **kwargs) -> Any:
+        """Execute an async function with try-except logic and retry handling.
+        
+        Args:
+            *args: Positional arguments to pass to the wrapped function.
+            **kwargs: Keyword arguments to pass to the wrapped function.
+            
+        Returns:
+            Any: The return value of the wrapped function.
+            
+        Raises:
+            Exception: The caught exception if raise_exception is True and 
+                all retries are exhausted.
+        """
         try:
             while self.attempts <= self.retries:
                 try:
@@ -275,6 +369,19 @@ class TryExcept:
 
 
     def try_except(self, *args, **kwargs) -> Any:
+        """Execute a sync function with try-except logic and retry handling.
+        
+        Args:
+            *args: Positional arguments to pass to the wrapped function.
+            **kwargs: Keyword arguments to pass to the wrapped function.
+            
+        Returns:
+            Any: The return value of the wrapped function.
+            
+        Raises:
+            Exception: The caught exception if raise_exception is True and 
+                all retries are exhausted.
+        """
         try:
             while self.attempts <= self.retries:
                 # Try the function.
@@ -328,8 +435,25 @@ def async_try_except(exception: list=[Exception],
     Retrying (0/3)...
     """
     def decorator(func: Coroutine) -> Coroutine:
+        """Create decorator function for standalone async try-except handling.
+        
+        Args:
+            func (Coroutine): The async function to be decorated.
+            
+        Returns:
+            Coroutine: The decorated async function with error handling.
+        """
         @wraps(func)
         async def wrapper(*args, **kwargs) -> Any:
+            """Standalone async wrapper that applies try-except logic.
+            
+            Args:
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any: The return value of the wrapped function.
+            """
 
             # Initialize Logger and other variables.
             # NOTE See: https://stackoverflow.com/questions/1261875/what-does-nonlocal-do-in-python-3
@@ -439,8 +563,25 @@ def try_except(exception: list=[Exception],
     Retrying (0/3)...
     """
     def decorator(func: Callable) -> Callable:
+        """Create decorator function for standalone sync try-except handling.
+        
+        Args:
+            func (Callable): The function to be decorated.
+            
+        Returns:
+            Callable: The decorated function with error handling.
+        """
         @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
+            """Standalone sync wrapper that applies try-except logic.
+            
+            Args:
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any: The return value of the wrapped function.
+            """
 
             # Initialize Logger and other variables.
             # NOTE See: https://stackoverflow.com/questions/1261875/what-does-nonlocal-do-in-python-3
