@@ -4,6 +4,19 @@ from typing import Any, Coroutine
 import pandas as pd
 
 def _list_set_tuple(inputs: list|set|tuple, func: Coroutine, enum: bool, outer_task_name: str, *args, **kwargs) -> list[asyncio.Task]:
+    """Create asyncio tasks from list, set, or tuple inputs.
+    
+    Args:
+        inputs (list|set|tuple): The input collection to process.
+        func (Coroutine): The coroutine function to execute for each item.
+        enum (bool): Whether to enumerate inputs and pass index to function.
+        outer_task_name (str): Name to assign to each created task.
+        *args: Additional positional arguments for the function.
+        **kwargs: Additional keyword arguments for the function.
+        
+    Returns:
+        list[asyncio.Task]: List of created asyncio tasks.
+    """
     if enum:
         return [
             asyncio.create_task(
@@ -20,6 +33,19 @@ def _list_set_tuple(inputs: list|set|tuple, func: Coroutine, enum: bool, outer_t
         ]
 
 def _dict(inputs: dict, func: Coroutine, enum: bool, outer_task_name: str, *args, **kwargs) -> list[asyncio.Task]:
+    """Create asyncio tasks from dictionary inputs.
+    
+    Args:
+        inputs (dict): The input dictionary to process.
+        func (Coroutine): The coroutine function to execute for each key-value pair.
+        enum (bool): Whether to enumerate inputs and pass index to function.
+        outer_task_name (str): Name to assign to each created task.
+        *args: Additional positional arguments for the function.
+        **kwargs: Additional keyword arguments for the function.
+        
+    Returns:
+        list[asyncio.Task]: List of created asyncio tasks.
+    """
     if enum:
         return [
             asyncio.create_task(
@@ -36,6 +62,19 @@ def _dict(inputs: dict, func: Coroutine, enum: bool, outer_task_name: str, *args
             ]
 
 def _pd_dataframe(inputs: pd.DataFrame, func: Coroutine, enum: bool, outer_task_name: str, *args, **kwargs) -> list[asyncio.Task]:
+    """Create asyncio tasks from pandas DataFrame inputs.
+    
+    Args:
+        inputs (pd.DataFrame): The input DataFrame to process.
+        func (Coroutine): The coroutine function to execute for each row.
+        enum (bool): Whether to enumerate inputs and pass index to function.
+        outer_task_name (str): Name to assign to each created task.
+        *args: Additional positional arguments for the function.
+        **kwargs: Additional keyword arguments for the function.
+        
+    Returns:
+        list[asyncio.Task]: List of created asyncio tasks.
+    """
     if enum:
         return [
             asyncio.create_task(

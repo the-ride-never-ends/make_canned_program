@@ -10,9 +10,26 @@ def adjust_wait_time_for_execution(wait_in_seconds: float=5) -> Callable[..., An
     Useful for optimizing waiting periods based on a reference value e.g. a robots.txt delay.
     """
     def decorator(func: Callable) -> Callable:
+        """Create the decorator function for the given callable.
+        
+        Args:
+            func (Callable): The function to be decorated.
+            
+        Returns:
+            Callable: The decorated function.
+        """
 
         @wraps(func)
         def wrapper(*args,**kwargs) -> Any|None:
+            """Execute the function and adjust the wait time based on execution duration.
+            
+            Args:
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any|None: The return value of the wrapped function.
+            """
 
             # Initialize nonlocal and logger
             nonlocal wait_in_seconds

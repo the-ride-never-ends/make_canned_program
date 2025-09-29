@@ -26,8 +26,26 @@ def share_docstring(template_method):
     >>>         pass
     """
     def decorator(func):
+        """Create the decorator that shares docstrings.
+        
+        Args:
+            func: The function to be decorated.
+            
+        Returns:
+            function: The decorated function with shared docstring.
+        """
         @wraps(func)
         def wrapper(self, *args, **kwargs):
+            """Wrapper that shares docstring from template method and executes function.
+            
+            Args:
+                self: The instance object.
+                *args: Positional arguments passed to the wrapped function.
+                **kwargs: Keyword arguments passed to the wrapped function.
+                
+            Returns:
+                Any: The return value of the wrapped function.
+            """
             # Get the template method from the instance
             template = getattr(self, template_method)
             # Share the docstring

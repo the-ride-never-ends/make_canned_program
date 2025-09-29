@@ -144,9 +144,20 @@ logger = Logger(logger_name=__name__)
 #         return chosen_modules
 
 class ChooseModule:
+    """Module selection interface for choosing which modules to include in a program.
+    
+    Provides functionality to select modules from both disk and GitHub sources,
+    ensuring required modules are always included.
+    """
 
 
     def __init__(self, always_include: Optional[list[str]] = None) -> None:
+        """Initialize the module chooser with optional always-included modules.
+        
+        Args:
+            always_include (Optional[list[str]]): List of module names that should
+                always be included in the selection. Defaults to None.
+        """
         self.yaml_path: Path = Path(PROJECT_ROOT) / "github_urls_for_modules.yaml"
         self.always_include: list[str] = [module.lower() for module in (always_include or [])]
         self.top_level_dir: list[str] = os.listdir(CUSTOM_MODULES_FOLDER)

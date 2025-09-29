@@ -18,6 +18,15 @@ def get_exec_time(func: Callable) -> Any:
 
     @wraps(func)
     def wrapper(*args, **kwargs):
+        """Wrapper function that measures execution time of the decorated function.
+        
+        Args:
+            *args: Positional arguments passed to the wrapped function.
+            **kwargs: Keyword arguments passed to the wrapped function.
+            
+        Returns:
+            Any: The return value of the wrapped function.
+        """
 
         # Define the logger.
         logger = Logger(logger_name=func.__module__)

@@ -7,16 +7,38 @@ logger = Logger(logger_name=__name__)
 
 
 class CopyOnDiskModulesToProgramDirectory:
+    """Handle copying of on-disk modules to a program directory.
+    
+    Validates module paths and copies only disk-based modules (not GitHub URLs)
+    to the specified program directory.
+    """
 
     def __init__(self, 
                  chosen_modules: dict[str, str], 
                  program_path: str
                 ) -> None:
+        """Initialize with module paths and destination directory.
+        
+        Args:
+            chosen_modules (dict[str, str]): Dictionary mapping module names to their paths.
+            program_path (str): The destination directory path.
+        """
         self.chosen_modules = self._validate_paths(chosen_modules)
         self.program_path = self._validate_paths(program_path)
 
 
     def _validate_path_helper(self, path: str) -> Path:
+        """Validate that a path exists and is a directory.
+        
+        Args:
+            path (str): The path to validate.
+            
+        Returns:
+            Path: The validated Path object.
+            
+        Raises:
+            ValueError: If the path doesn't exist or isn't a directory.
+        """
         path: Path = Path(path)
         if not path.exists():
             raise ValueError(f"Path does not exist: {path}")

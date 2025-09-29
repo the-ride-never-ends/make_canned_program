@@ -4,6 +4,15 @@ import shutil
 
     # Step 7. Unpack the main folder into the program directory, then delete the main folder
 def unpack_main(program_path: str) -> None:
+    """Unpack the main folder contents into the program directory.
+    
+    Moves all contents from the 'main' subfolder to the root program directory,
+    renaming '_main.py' to 'main.py' in the process. Removes the main folder
+    after unpacking.
+    
+    Args:
+        program_path (str): The path to the program directory containing the main folder.
+    """
     main_folder = os.path.join(program_path, "main")
     if os.path.exists(main_folder):
         for item in os.listdir(main_folder):

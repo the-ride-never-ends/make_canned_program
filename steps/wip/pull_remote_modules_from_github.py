@@ -48,6 +48,11 @@ class PullRemoteModulesFromGithub:
 
 
     def remote_modules_from_github(self) -> None:
+        """Pull remote modules from GitHub repositories.
+        
+        Attempts to download and install each GitHub-based module from the
+        chosen modules dictionary. Logs success or failure for each module.
+        """
 
         results = {}
         for module_name in self.chosen_modules.keys():
@@ -65,6 +70,18 @@ class PullRemoteModulesFromGithub:
 
 
     def _remove_on_disk_custom_modules(self, path: str|dict[str, str]) -> str|dict[str, Path]:
+        """Filter out GitHub modules from the provided module paths.
+        
+        Identifies and returns only the modules that have GitHub URLs (http/https),
+        filtering out local disk-based modules.
+        
+        Args:
+            path (str|dict[str, str]): Module paths to filter, either as a single
+                path string or dictionary of module names to paths.
+                
+        Returns:
+            str|dict[str, Path]: Dictionary containing only GitHub-based modules.
+        """
         github_modules = {}
         for module_name, module_path in path.items():
             if str(module_path).startswith(("http://", "https://")):
